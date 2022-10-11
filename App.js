@@ -1,117 +1,38 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { decNumber, incNumber } from './src/redux/actions'
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const dispatch = useDispatch()
+  const number = useSelector((state) => state.changeTheNumber)
   return (
-    <View style={styles.sectionContainer}>
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
+        style={{ fontSize: 24, fontWeight: 'bold', color: 'grey' }}>
+        Increment/Decrement counter
       </Text>
       <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
+        style={{ fontSize: 16, fontWeight: 'bold', color: 'grey', marginTop: 32 }}>
+        using React Native and Redux
       </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      <View
+        style={{ borderColor: '#CFD8DC', borderWidth: 2, flexDirection: 'row', borderRadius: 8, marginTop: 32 }}>
+        <TouchableOpacity
+          onPress={() => dispatch(decNumber())}>
+          <Text
+            style={{ backgroundColor: '#CFD8DC', paddingVertical: 8, paddingHorizontal: 16 }}>-</Text>
+        </TouchableOpacity>
+        <Text
+          style={{ backgroundColor: 'white', paddingVertical: 8, paddingHorizontal: 16 }}>{number}</Text>
+        <TouchableOpacity
+          onPress={() => dispatch(incNumber(7))}>
+          <Text
+            style={{ backgroundColor: '#CFD8DC', paddingVertical: 8, paddingHorizontal: 16 }}>+</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+export default App
